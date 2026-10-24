@@ -14,3 +14,19 @@
 MANIKIN-S: `python main_test.py -opt options/manikin_s_cross_cmu.yaml --checkpoint model_zoo/manikin_s_cross_cmu.pth --gpu 0`
 MANIKIN-L: `python main_test.py -opt options/manikin_l_amass_eval_online.yaml --checkpoint model_zoo/manikin_l_amass.pth --gpu 0 --benchmark amass_mixed`
 MANIKIN-LN: same with `options/manikin_l_amass_eval_s2s.yaml`.
+
+## Export MANIKIN-S to ONNX
+
+With PyTorch and ONNX installed, export a MANIKIN-S checkpoint with:
+
+```bash
+python tools/export_manikin_s_onnx.py \
+  --config options/manikin_s_amass.yaml \
+  --checkpoint model_zoo/manikin_s_amass.pth \
+  --output model_zoo/manikin_s_amass.onnx
+```
+
+Choose the matching `manikin_s_*.yaml` config and checkpoint for other evaluation sets. The ONNX input is
+`(batch, 40, 54)`; the batch dimension is dynamic. The four outputs are root orientation, body pose, swivel
+values, and ankle/foot vectors. This exports the MANIKIN-S neural network; preprocessing and analytic IK remain
+outside the ONNX graph.
