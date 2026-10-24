@@ -1,0 +1,13 @@
+name = "ojii3/manikin-moonbit"
+
+version = "0.1.0"
+
+readme = "README.md"
+
+repository = "https://github.com/OJII3/MANIKIN"
+
+license = "MIT"
+
+keywords = [ "manikin", "inverse-kinematics" ]
+
+description = "MoonBit components for browser-side MANIKIN-S inference."
