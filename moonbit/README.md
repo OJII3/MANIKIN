@@ -3,10 +3,12 @@
 Small MoonBit project scaffold for the browser-side MANIKIN-S inference
 pipeline. Input preparation and post-processing are not implemented yet.
 
-## Build
+## Development environment
 
-Install the MoonBit toolchain, then run:
+From the repository root, enter the Nix development shell:
 
 ```bash
-moon check
+nix develop
 ```
+
+Then run `moon check` from this directory.
