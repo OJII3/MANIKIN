@@ -6,3 +6,4 @@ datasets/CMU/
 datasets/BioMotionLab_NTroje/
 datasets/MPI_HDM05/
 model_zoo/*.pth
+model_zoo/*.onnx

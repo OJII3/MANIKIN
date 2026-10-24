@@ -7,10 +7,12 @@ root orientation, body pose, swivel values, and ankle/foot vectors.
 
 import argparse
 from pathlib import Path
+import sys
 
 import torch
 import yaml
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from networks.manikin_s import ManikinNet
 
 
