@@ -1,0 +1,23 @@
+[project]
+name = "manikin"
+version = "0.1.0"
+requires-python = ">=3.10,<3.13"
+dependencies = []
+
+[dependency-groups]
+onnx-export = [
+  "onnx>=1.16,<2",
+  "pyyaml>=6,<7",
+  "torch==2.8.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
