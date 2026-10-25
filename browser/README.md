@@ -6,16 +6,16 @@ Execution Providerを選択します。入力特徴量は学習時と同じ40フ
 
 ## 準備
 
-MANIKIN-Sの学習済みチェックポイントを用意し、ONNXへ変換します。
+`model_zoo/manikin_s_amass.onnx` がある場合は、アプリが既定モデルとして読み込みます。ONNXはGit管理対象外のため、別の環境では学習済みチェックポイントを取得して次のように変換してください。
 
 ```bash
 python tools/export_manikin_s_onnx.py \
   --config options/manikin_s_amass.yaml \
   --checkpoint model_zoo/manikin_s_amass.pth \
-  --output browser/public/manikin_s.onnx
+  --output model_zoo/manikin_s_amass.onnx
 ```
 
-チェックポイントはREADMEのEvaluationにあるGoogle Driveから取得します。アプリからONNXファイルを選択するか、公開URLを入力してください。
+チェックポイントはREADMEのEvaluationにあるGoogle Driveから取得します。別モデルを試す場合は、アプリからONNXファイルを選択するか、公開URLを入力してください。ビルド時にONNXが存在すれば `dist/manikin_s_amass.onnx` として同梱されます。
 
 ## Development
 

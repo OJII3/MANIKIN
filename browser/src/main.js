@@ -3,7 +3,7 @@ import { infer } from 'mbt:ojii3/manikin-moonbit/src'
 
 const app = document.querySelector('#app')
 const identity = [1, 0, 0, 0, 1, 0]
-let modelUrl = ''
+let modelUrl = '/manikin_s_amass.onnx'
 let input = makeNeutralInput()
 let result = null
 
@@ -24,7 +24,7 @@ app.innerHTML = `
     <div class="config-grid">
       <article class="panel model-panel">
         <div class="panel-title"><span class="number">A</span><div><h2>Model graph</h2><p>MANIKIN-S · ONNX</p></div></div>
-        <label class="dropzone" for="model-file"><span class="drop-icon">↑</span><strong id="model-label">Choose an ONNX model</strong><small>or enter a hosted model URL</small><input id="model-file" type="file" accept=".onnx,application/octet-stream" /></label>
+        <label class="dropzone" for="model-file"><span class="drop-icon">↑</span><strong id="model-label">model_zoo/manikin_s_amass.onnx</strong><small>or choose another model / enter a URL</small><input id="model-file" type="file" accept=".onnx,application/octet-stream" /></label>
         <input class="text-input" id="model-url" placeholder="https://…/manikin_s.onnx" />
         <div class="runtime-row"><span>Execution provider</span><span class="provider"><span class="live-dot"></span> WEBGPU</span></div>
         <div class="runtime-row"><span>Adapter</span><span id="gpu-state" class="muted">Checking…</span></div>
