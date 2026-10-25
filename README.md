@@ -121,6 +121,20 @@ checkpoints, use the matching `manikin_s_cross_*.yaml` or `--benchmark cross_*`.
 Add `--save_pred` to write the predicted motion of each test sequence to `results/<task>/pred_npz/` in the AMASS npz
 format, which the tools below take as input.
 
+## ONNX export
+
+The Nix development shell provides Python 3.12 and `uv`. The export dependency group uses CPU-only PyTorch 2.8 wheels.
+Install the isolated dependencies and export a MANIKIN-S checkpoint with:
+
+```bash
+nix develop
+uv sync --group onnx-export
+uv run python tools/export_manikin_s_onnx.py \
+    --config options/manikin_s_amass.yaml \
+    --checkpoint model_zoo/manikin_s_amass.pth \
+    --output model_zoo/manikin_s_amass.onnx
+```
+
 ## Biomechanical conversion and humanoid retargeting
 
 ```bash

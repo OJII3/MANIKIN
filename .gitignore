@@ -9,3 +9,4 @@ model_zoo/*.pth
 model_zoo/*.onnx
 .envrc
 .direnv/
+.venv/
