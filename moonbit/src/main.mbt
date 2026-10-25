@@ -1,5 +1,3 @@
-import "moonbitlang/core/math" as @math
-
 ///| Normalize a 3D vector. A zero vector stays zero, matching torch.nn.functional.normalize.
 fn normalize3(v : Array[Double]) -> Array[Double] {
   let length = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
@@ -55,7 +53,7 @@ pub fn matrix_to_sixd(matrix : Array[Double]) -> Array[Double] {
 ///|
 /// Convert per-joint local row-major rotations to global rotations along a parent tree.
 ///| `local` is concatenated Jx3x3 data and `parents[j]` is -1 for a root.
-pub fn local_to_global_rotations(local : Array[Double], parents : Array[Int]) -> Array[Double] {
+pub fn local_to_global_rotations(local_rotations : Array[Double], parents : Array[Int]) -> Array[Double] {
   let joint_count = parents.length()
   let global = Array::make(joint_count * 9, 0.0)
   let mut joint = 0
@@ -65,7 +63,7 @@ pub fn local_to_global_rotations(local : Array[Double], parents : Array[Int]) ->
     if parent < 0 {
       let mut k = 0
       while k < 9 {
-        global[local_offset + k] = local[local_offset + k]
+        global[local_offset + k] = local_rotations[local_offset + k]
         k = k + 1
       }
     } else {
@@ -77,7 +75,7 @@ pub fn local_to_global_rotations(local : Array[Double], parents : Array[Int]) ->
           let mut value = 0.0
           let mut k = 0
           while k < 3 {
-            value = value + global[parent_offset + row * 3 + k] * local[local_offset + k * 3 + col]
+            value = value + global[parent_offset + row * 3 + k] * local_rotations[local_offset + k * 3 + col]
             k = k + 1
           }
           global[local_offset + row * 3 + col] = value
@@ -103,7 +101,7 @@ pub fn swivel_to_mid(
   d2 : Double,
   d3 : Double,
 ) -> Array[Double] {
-  let cos_tmp = clamp((d1 * d1 + d2 * d2 - d3 * d3) / (2.0 * d1 * d2), -1.0 + 1e-6, 1.0 - 1e-6)
+  let cos_tmp = clamp((d1 * d1 + d2 * d2 - d3 * d3) / (2.0 * d1 * d2), -1.0 + 1.0e-6, 1.0 - 1.0e-6)
   let v3 = 3.141592653589793 - @math.acos(cos_tmp)
   let cos_alpha = clamp((d1 * d1 + d3 * d3 - d2 * d2) / (2.0 * d1 * d3), -1.0, 1.0)
   let sin_alpha = clamp(d2 * @math.sin(3.141592653589793 - v3) / d3, -1.0, 1.0)
