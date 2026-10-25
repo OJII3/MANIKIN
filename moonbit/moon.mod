@@ -11,3 +11,7 @@ license = "MIT"
 keywords = [ "manikin", "inverse-kinematics" ]
 
 description = "MoonBit components for browser-side MANIKIN-S inference."
+import {
+  "OJII3/onnxruntime_web@0.1.0",
+  "moonbitlang/async@0.22.5",
+}
