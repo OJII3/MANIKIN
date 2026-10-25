@@ -1,0 +1,9 @@
+import {
+  "moonbitlang/core/math" @math,
+}
+
+import {
+  "ojii3/manikin-moonbit/src" @src,
+} for "test"
+
+pkgtype(kind: "executable")
