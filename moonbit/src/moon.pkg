@@ -1,9 +1,11 @@
 import {
   "moonbitlang/core/math" @math,
+  "moonbitlang/async/js_async" @js_async,
 }
 
 import {
   "ojii3/manikin-moonbit/src" @src,
 } for "test"
 
-pkgtype(kind: "executable")
+pkgtype(kind: "foreign_library")
+supported_targets = "js"

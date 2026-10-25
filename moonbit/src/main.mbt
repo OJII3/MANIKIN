@@ -238,6 +238,58 @@ pub fn translate_positions(positions : Array[Double], translation : Array[Double
   translated
 }
 
-fn main {
-  println("MANIKIN-S MoonBit inference utilities")
+///| Run the exported MANIKIN-S graph and return its four output tensors in order.
+///| The output is [root orientation (6), body pose (126), swivel (8), ankle (12)].
+///|
+#external
+type Tensor
+
+///|
+#external
+type InferenceSession
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn tensor_float32(data : FixedArray[Double], dims : FixedArray[Int32]) -> Tensor = "tensorFloat32"
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn tensor_float32_data(tensor : Tensor) -> FixedArray[Double] = "tensorFloat32Data"
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn create_session(model_url : String, providers : FixedArray[String]) -> @js_async.Promise[InferenceSession] = "createSession"
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn input_names(session : InferenceSession) -> FixedArray[String] = "inputNames"
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn run_session(session : InferenceSession, names : FixedArray[String], tensors : FixedArray[Tensor]) -> @js_async.Promise[FixedArray[Tensor]] = "runSession"
+
+///|
+#module("@ojii3/onnxruntime-web-mbt")
+extern "js" fn release_session(session : InferenceSession) -> @js_async.Promise[Unit] = "releaseSession"
+
+///|
+#export_name("infer")
+pub async fn infer(model_url : String, input : Array[Double], provider : String) -> Array[Double] {
+  let providers : FixedArray[String] = if provider == "webgpu" {
+    ["webgpu"]
+  } else {
+    ["wasm"]
+  }
+  let session = create_session(model_url, providers).wait()
+  let tensor = tensor_float32(FixedArray::from_array(input), [1, 40, 54])
+  let outputs = run_session(session, [input_names(session)[0]], [tensor]).wait()
+  let result : Array[Double] = []
+  for output in outputs {
+    let data = tensor_float32_data(output)
+    for value in data {
+      result.push(value)
+    }
+  }
+  release_session(session).wait()
+  result
 }
